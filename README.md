@@ -1,4 +1,4 @@
-# ShopSphere — Ecommerce-App (MERN Stack)
+# Mivra — Ecommerce-App (MERN Stack)
 
 ShopSphere is the replaceable storefront display brand. Repository/package names remain Ecommerce-App. The UI uses React Bootstrap with a shared neutral/teal theme, responsive product cards, INR formatting, accessible form controls, checkout summaries and admin tables. Branding lives in Header, Footer, HomeScreen and public metadata.
 
