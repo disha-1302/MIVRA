@@ -50,8 +50,16 @@ const RegisterScreen = () => {
   };
 
   return (
-    <FormContainer>
-      <h1>Sign Up</h1><p className="text-muted">Your next favourite is waiting. Create an account to get started.</p>
+    <FormContainer
+      kicker="New here"
+      title={<>Your next favourite is <mark>waiting</mark>.</>}
+      lede="Create an account to save your bag, follow your orders and check out faster next time."
+      notes={['Free to create', 'Cart synced to your account', 'Order history in one place']}
+      index="02"
+    >
+      <p className="eyebrow">Create account</p>
+      <h1>Join the collection.</h1>
+      <p className="lede">A few details and you are ready to shop.</p>
       <Form onSubmit={submitHandler}>
       <Form.Group controlId="name" className="my-3">
           <Form.Label>Name</Form.Label>
@@ -99,11 +107,11 @@ const RegisterScreen = () => {
         </Button>
         {isLoading && <Loader />}
       </Form>
-      <Row className="py-3">
+      <Row className="auth-switch">
         <Col>
-          Already have an account{" "}
+          Already have an account?
           <Link to={redirect ? `/login?redirect=${redirect}` : "/login"}>
-            Login
+            Sign in
           </Link>
         </Col>
       </Row>

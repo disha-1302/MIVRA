@@ -32,7 +32,7 @@ const OrderScreen = () => {
         key: razorpayOrder.key,
         amount: razorpayOrder.amount,
         currency: razorpayOrder.currency,
-        name: "Ecommerce App",
+        name: "MIVRA",
         description: `Payment for order ${order._id}`,
         order_id: razorpayOrder.razorpayOrderId,
         prefill: {
@@ -83,7 +83,14 @@ const OrderScreen = () => {
 
   return (
     <>
-      <h1>Your order</h1><p className="text-muted order-reference">Order reference: {order._id}</p>
+      <header className="page-heading">
+        <div>
+          <p className="eyebrow">Order</p>
+          <h1>Your order</h1>
+          <p className="order-reference mb-0">Order reference: {order._id}</p>
+        </div>
+        <span className="page-index">{order.isPaid ? 'Paid' : 'Awaiting payment'}</span>
+      </header>
       <OrderTimeline order={order} />
       <Row>
         <Col md={8}>

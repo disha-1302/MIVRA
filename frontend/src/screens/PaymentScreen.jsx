@@ -17,7 +17,7 @@ const PaymentScreen = () => {
     if(!shippingAddress) {
     navigate('/shipping')
     }
-  },[shippingAddress. navigate]);
+  }, [shippingAddress, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();

@@ -43,8 +43,16 @@ const LoginScreen = () => {
     }
   };
   return (
-    <FormContainer>
-      <h1>Sign In</h1><p className="text-muted">Welcome back. Sign in to manage your orders and continue shopping.</p>
+    <FormContainer
+      kicker="Member access"
+      title={<>Welcome back to the <mark>shelf</mark>.</>}
+      lede="Sign in to manage your orders, track deliveries and pick up where you left off."
+      notes={['Saved cart and favourites', 'Live order status', 'Faster checkout next time']}
+      index="01"
+    >
+      <p className="eyebrow">Sign in</p>
+      <h1>Good to see you again.</h1>
+      <p className="lede">Use your account details below to continue shopping.</p>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="email" className="my-3">
           <Form.Label>Email Address</Form.Label>
@@ -74,11 +82,11 @@ const LoginScreen = () => {
         </Button>
         {isLoading && <Loader />}
       </Form>
-      <Row className="py-3">
+      <Row className="auth-switch">
         <Col>
-          New Customer{" "}
+          New customer?
           <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>
-            Register
+            Create an account
           </Link>
         </Col>
       </Row>

@@ -1,4 +1,4 @@
-import { Badge, Container, Navbar, Nav, NavDropdown, Form, Button } from "react-bootstrap";
+import { Container, Navbar, Nav, NavDropdown, Form, Button } from "react-bootstrap";
 import { useGetProductCategoriesQuery } from '../slices/productsApiSlice';
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
@@ -12,17 +12,15 @@ import { useLocation } from 'react-router-dom';
 
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
-  // console.log(cartItems)
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const { data: categoryData, error: categoryError } = useGetProductCategoriesQuery();
 
-  const [logoutApiCall] = useLogoutMutation();// we can call logoutApiCall whatever we want
+  const [logoutApiCall] = useLogoutMutation();
 
   const logoutHandler = async () => {
-    // console.log("Logout");
     try {
       await logoutApiCall().unwrap();
       dispatch(setCartOwner(null));
@@ -33,43 +31,55 @@ const Header = () => {
     }
 
   };
+  const cartCount = cartItems.reduce((a, c) => a + c.qty, 0);
   return (
     <header className="store-header">
-      <div className="store-announcement">Everyday essentials. Secure checkout with Razorpay.</div>
-      <Navbar variant="light" expand="xl" collapseOnSelect>
+      <div className="store-announcement">
+        <div className="announcement-inner">
+          <span className="announcement-item">Things you'll actually want</span>
+          <span className="announcement-sep" aria-hidden="true">✳</span>
+          <span className="announcement-item">Free shipping over ₹999</span>
+          <span className="announcement-sep" aria-hidden="true">✳</span>
+          <span className="announcement-item">Secure checkout with Razorpay</span>
+          <span className="announcement-sep" aria-hidden="true">✳</span>
+          <span className="announcement-item">New drops every week</span>
+        </div>
+      </div>
+      <Navbar variant="light" expand="lg" collapseOnSelect className="store-navbar">
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand>
-              <span className="brand-mark" aria-hidden="true">S</span> ShopSphere<span className="brand-dot">.</span>
+              <span className="brand-mark" aria-hidden="true">M</span>
+              <span className="brand-word">MIVRA</span><span className="brand-dot">.</span>
             </Navbar.Brand>
           </LinkContainer>
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Form className="header-search" role="search" onSubmit={(event) => { event.preventDefault(); const keyword = new FormData(event.currentTarget).get('keyword').trim(); navigate(catalogLocation(keyword ? { keyword } : {})); }}>
-              <Form.Control key={location.search} defaultValue={new URLSearchParams(location.search).get('keyword') || ''} name="keyword" type="search" maxLength={100} aria-label="Search products" placeholder="Search products…" />
-              <Button type="submit" variant="light">Search</Button>
-            </Form>
-            <Nav className="ms-auto">
+            <Nav className="primary-nav">
               <LinkContainer to="/"><Nav.Link>Home</Nav.Link></LinkContainer>
               <LinkContainer to="/products"><Nav.Link>Products</Nav.Link></LinkContainer>
               <NavDropdown title="Categories" id="categories-menu">
                 <LinkContainer to="/products"><NavDropdown.Item>All Categories</NavDropdown.Item></LinkContainer>
                 {!categoryError && categoryData?.categories.map((category) => <LinkContainer key={category} to={catalogLocation({ category })} isActive={location.pathname === '/products' && new URLSearchParams(location.search).get('category') === category}><NavDropdown.Item>{category}</NavDropdown.Item></LinkContainer>)}
               </NavDropdown>
+            </Nav>
+
+            <Form className="header-search" role="search" onSubmit={(event) => { event.preventDefault(); const keyword = new FormData(event.currentTarget).get('keyword').trim(); navigate(catalogLocation(keyword ? { keyword } : {})); }}>
+              <Form.Control key={location.search} defaultValue={new URLSearchParams(location.search).get('keyword') || ''} name="keyword" type="search" maxLength={100} aria-label="Search products" placeholder="Search the collection…" />
+              <Button type="submit" variant="dark">Search</Button>
+            </Form>
+
+            <Nav className="utility-nav ms-auto">
               <LinkContainer to="/cart">
                 <Nav.Link>
-                  <FaShoppingCart />
-                  Cart
-                  {cartItems.length > 0 && (
-                    <Badge pill bg="success" style={{ marginLeft: "5px" }}>
-                      {cartItems.reduce((a, c) => a + c.qty, 0)}
-                    </Badge>
-                  )}
+                  <span className="cart-link"><FaShoppingCart aria-hidden="true" /> Cart
+                    {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
+                  </span>
                 </Nav.Link>
               </LinkContainer>
               {userInfo ? (
-                <NavDropdown title={userInfo.name.split(' ')[0]} id="username">
+                <NavDropdown title={<span className="account-trigger"><span className="account-avatar" aria-hidden="true">{userInfo.name.charAt(0).toUpperCase()}</span>{userInfo.name.split(' ')[0]}</span>} id="username">
                   <LinkContainer to="/profile">
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
@@ -80,8 +90,7 @@ const Header = () => {
               ) : (
                 <LinkContainer to="/login">
                   <Nav.Link>
-                    <FaUser />
-                    SignIn
+                    <FaUser aria-hidden="true" /> Sign in
                   </Nav.Link>
                 </LinkContainer>
               )}

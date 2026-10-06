@@ -1,6 +1,6 @@
 {
-  "short_name": "ShopSphere",
-  "name": "ShopSphere Storefront",
+  "short_name": "MIVRA",
+  "name": "MIVRA Storefront",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#15140f",
+  "background_color": "#f2ede1"
 }

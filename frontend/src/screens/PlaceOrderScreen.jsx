@@ -48,7 +48,14 @@ const PlaceOrderScreen = () => {
   return (
     <>
       <CheckoutSteps step1 step2 step3 step4 />
-      <h1>Review your order</h1><p className="text-muted">Check your items and delivery details before continuing to secure payment.</p>
+      <header className="page-heading">
+        <div>
+          <p className="eyebrow">Final check</p>
+          <h1>Review your order</h1>
+          <p className="text-muted mb-0">Check your items and delivery details before continuing to secure payment.</p>
+        </div>
+        <span className="page-index">{cart.cartItems.length} items</span>
+      </header>
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
